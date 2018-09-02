@@ -127,7 +127,9 @@ public abstract class AbstractVector<T extends Vector> implements Vector {
 	 * The method truncates all numbers above 1 to allow for this.
 	 * No check is made for the magnitude of the error,
 	 * it is assumed to be small, because in exact mathematics,
-	 * the formula used cannot yield numbers above 1.</p>
+	 * the formula used cannot yield numbers above 1.
+	 *
+	 * @return {@inheritDoc}
 	 */
 	@Override
 	public double angleWith(Vector a) {

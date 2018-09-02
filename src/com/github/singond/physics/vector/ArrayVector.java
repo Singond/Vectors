@@ -29,6 +29,7 @@ public class ArrayVector extends AbstractVector<ArrayVector> implements Vector {
 	 * Returns an {@code ArrayVector} with the given components.
 	 *
 	 * @param components components of the vector
+	 * @return an {@code ArrayVector} with the given components
 	 */
 	public static final ArrayVector valueOf(double... components) {
 		return new ArrayVector(components.clone());

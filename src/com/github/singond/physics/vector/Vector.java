@@ -75,7 +75,7 @@ public interface Vector {
 	 *
 	 * @param addend the vector to be added to this vector
 	 * @return {@code this + addend}
-	 * @throws InvalidVectorDimensionException if the dimension of {@code a}
+	 * @throws IllegalVectorDimensionException if the dimension of {@code a}
 	 *         is not equal to the dimension of this vector
 	 */
 	Vector plus(Vector addend);
@@ -87,7 +87,7 @@ public interface Vector {
 	 *
 	 * @param subtrahend the vector to be subtracted from this vector
 	 * @return {@code this - addend}
-	 * @throws InvalidVectorDimensionException if the dimension of {@code a}
+	 * @throws IllegalVectorDimensionException if the dimension of {@code a}
 	 *         is not equal to the dimension of this vector
 	 */
 	Vector minus(Vector subtrahend);
@@ -106,7 +106,7 @@ public interface Vector {
 	 *
 	 * @param a the vector to multiply this vector by
 	 * @return {@code this . a}
-	 * @throws InvalidVectorDimensionException if the dimension of {@code a}
+	 * @throws IllegalVectorDimensionException if the dimension of {@code a}
 	 *         is not equal to the dimension of this vector
 	 */
 	double dotProduct(Vector a);
@@ -117,7 +117,7 @@ public interface Vector {
 	 *
 	 * @param a the vector to multiply this vector by
 	 * @return {@code this x a}
-	 * @throws InvalidVectorDimensionException if the dimension of {@code a}
+	 * @throws IllegalVectorDimensionException if the dimension of {@code a}
 	 *         or the dimension of this vector is not three
 	 */
 	Vector crossProduct(Vector a);
@@ -136,7 +136,7 @@ public interface Vector {
 	 *
 	 * @param a the vector to multiply this vector by
 	 * @return {@code this .* a}
-	 * @throws InvalidVectorDimensionException if the dimension of {@code a}
+	 * @throws IllegalVectorDimensionException if the dimension of {@code a}
 	 *         is not equal to the dimension of this vector
 	 */
 	Vector pointwiseProduct(Vector a);
@@ -167,17 +167,17 @@ public interface Vector {
 	/**
 	 * Returns the hash code value for this vector. The hash code of a vector
 	 * object is defined to be the result of the following calculation:
-	 * <p>
-	 * <pre> int hashCode = 1;
+	 * <pre>{@code
+	 * int hashCode = 1;
 	 * for (int i = 0; i < dimension(); i++) {
 	 *     long temp = Double.doubleToLongBits(get(i));
 	 *     result = 31 * hashCode + (int) (temp ^ (temp >>> 32));
-	 * }</pre>
+	 * }}</pre>
 	 * <p>
 	 * This ensures that {@code vector1.equals(vector2)} implies that
 	 * {@code vector1.hashCode() == vector2.hashCode()} for any two vectors,
 	 * {@code vector1} and {@code vector2},
-	 * as required by the general contract of Object.hashCode().
+	 * as required by the general contract of {@code Object.hashCode()}.
 	 *
 	 * @return {@inheritDoc}
 	 */
