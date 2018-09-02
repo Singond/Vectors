@@ -142,10 +142,11 @@ public interface Vector {
 	Vector pointwiseProduct(Vector a);
 
 	/**
-	 * Returns the smallest angle between the given vector and this vector.
+	 * Returns the smallest angle between the given vector and this vector
+	 * in radians. The angle is a positive number between 0 and pi (inclusive).
 	 *
 	 * @param a the vector forming the other ray of the angle
-	 * @return the smallest angle between {@code this} and {@code a}
+	 * @return the smallest angle between {@code this} and {@code a} in radians
 	 */
 	double angleWith(Vector a);
 
