@@ -124,9 +124,9 @@ public interface Vector {
 	 * The vectors must be of the same dimension.
 	 * <p>
 	 * The pointwise product of two vectors (also called the Hadamard product)
-	 * is the result of multiplying the two vectors component by component,
-	 * eg. for vectors <tt>a = [a1, a2, ..., an]</tt> and
-	 * <tt>b = [b1, b2, ..., bn]</tt>, their pointwise product is defins as:
+	 * is the result of multiplying the two vectors component by component.
+	 * For vectors <tt>a = [a1, a2, ..., an]</tt> and
+	 * <tt>b = [b1, b2, ..., bn]</tt>, their pointwise product is defined as:
 	 * <pre>
 	 * a .* b = [a1 * b1, a2 * b2, ..., an * bn]
 	 * </pre>
