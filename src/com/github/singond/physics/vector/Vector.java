@@ -26,10 +26,8 @@ public interface Vector {
 	/**
 	 * Returns the given component of this vector.
 	 *
-	 * @param component the one-based index of the component
+	 * @param component the (zero-based) index of the component
 	 * @return the {@code component}th component of this vector.
-	 *         Note that the index is one-based, ie. {@code get(1)}
-	 *         returns the <em>first</em> component.
 	 */
 	double get(int component);
 
