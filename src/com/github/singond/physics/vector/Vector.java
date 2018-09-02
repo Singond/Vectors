@@ -163,4 +163,23 @@ public interface Vector {
 	@Override
 	boolean equals(Object o);
 
+	/**
+	 * Returns the hash code value for this vector. The hash code of a vector
+	 * object is defined to be the result of the following calculation:
+	 * <p>
+	 * <pre> int hashCode = 1;
+	 * for (int i = 0; i < dimension(); i++) {
+	 *     long temp = Double.doubleToLongBits(get(i));
+	 *     result = 31 * hashCode + (int) (temp ^ (temp >>> 32));
+	 * }</pre>
+	 * <p>
+	 * This ensures that {@code vector1.equals(vector2)} implies that
+	 * {@code vector1.hashCode() == vector2.hashCode()} for any two vectors,
+	 * {@code vector1} and {@code vector2},
+	 * as required by the general contract of Object.hashCode().
+	 *
+	 * @return {@inheritDoc}
+	 */
+	@Override
+	int hashCode();
 }
