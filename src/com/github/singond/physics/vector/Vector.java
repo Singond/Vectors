@@ -109,7 +109,7 @@ public interface Vector {
 	 * @throws InvalidVectorDimensionException if the dimension of {@code a}
 	 *         is not equal to the dimension of this vector
 	 */
-	Vector dotProduct(Vector a);
+	double dotProduct(Vector a);
 
 	/**
 	 * Returns the cross product of this vector with the given vector.
