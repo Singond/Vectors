@@ -1,5 +1,7 @@
 package com.github.singond.physics.vector;
 
+import java.util.List;
+
 /**
  * A vector as used in physics, ie. a quantity with magnitude and direction.
  * The vector is represented by a fixed-order sequence of numbers
@@ -14,11 +16,12 @@ public interface Vector {
 	// TODO Consider returning more generic type like Number in the interface
 
 	/**
-	 * Returns the components of this vector.
+	 * Returns the components of this vector as a list.
+	 * The returned list is immutable.
 	 *
 	 * @return the components of this vector
 	 */
-	double[] components();
+	List<Double> components();
 
 	/**
 	 * Returns the given component of this vector.
