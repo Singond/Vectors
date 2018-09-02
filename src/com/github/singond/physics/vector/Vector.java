@@ -34,7 +34,7 @@ public interface Vector {
 	double get(int component);
 
 	/**
-	 * Returns the dimension of this vector, ie. the number of its components.
+	 * Returns the dimension of this vector (the number of its components).
 	 *
 	 * @return the number of the components of the vector
 	 */
@@ -55,7 +55,7 @@ public interface Vector {
 	double magnitude();
 
 	/**
-	 * Returns the normalized vector, ie. a vector with the same dimension
+	 * Returns the normalized vector; that is a vector with the same dimension
 	 * and direction as this vector, but with the magnitude equal to one.
 	 *
 	 * @return the normalized vector to this vector
