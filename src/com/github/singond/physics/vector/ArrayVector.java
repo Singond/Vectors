@@ -110,16 +110,4 @@ public class ArrayVector extends AbstractVector<ArrayVector> implements Vector {
 	public String toString() {
 		return Arrays.toString(value);
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }

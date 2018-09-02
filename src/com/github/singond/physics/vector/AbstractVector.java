@@ -138,10 +138,30 @@ public abstract class AbstractVector<T extends Vector> implements Vector {
 	}
 
 	@Override
-	public abstract boolean equals(Object obj);
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		for (int i = 0; i < dimension(); i++) {
+			long temp = Double.doubleToLongBits(get(i));
+			result = prime * result + (int) (temp ^ (temp >>> 32));
+		}
+		return result;
+	}
 
 	@Override
-	public abstract int hashCode();
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (!(obj instanceof Vector)) return false;
+		Vector other = (Vector) obj;
+		for (int i = 0; i < dimension(); i++) {
+			if (Double.doubleToLongBits(get(i))
+			    != Double.doubleToLongBits(other.get(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	/**
 	 * Checks whether the given vector has the same dimensions as this vector
