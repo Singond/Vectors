@@ -3,7 +3,7 @@ package com.github.singond.physics.vector;
 import java.util.List;
 
 /**
- * A vector as used in physics, ie. a quantity with magnitude and direction.
+ * A vector as used in physics: a quantity with magnitude and direction.
  * The vector is represented by a fixed-order sequence of numbers
  * (the <em>components</em> of the vector in a vector base).
  * The number of the vector's components is called the <em>dimension</em>
