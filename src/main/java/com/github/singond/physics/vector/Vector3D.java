@@ -73,12 +73,30 @@ public final class Vector3D implements Vector {
 
 	@Override
 	public Vector3D plus(Vector a) {
-		return instance(x + a.get(0), y + a.get(1), z + a.get(2));
+		if (a instanceof Vector3D) {
+			return plus((Vector3D) a);
+		} else {
+			checkDimension(a);
+			return instance(x + a.get(0), y + a.get(1), z + a.get(2));
+		}
+	}
+
+	public Vector3D plus(Vector3D a) {
+		return instance(x + a.x, y + a.y, z + a.z);
 	}
 
 	@Override
 	public Vector3D minus(Vector a) {
-		return instance(x - a.get(0), y - a.get(1), z - a.get(2));
+		if (a instanceof Vector3D) {
+			return minus((Vector3D) a);
+		} else {
+			checkDimension(a);
+			return instance(x - a.get(0), y - a.get(1), z - a.get(2));
+		}
+	}
+
+	public Vector3D minus(Vector3D a) {
+		return instance(x - a.x, y - a.y, z - a.z);
 	}
 
 	@Override
@@ -88,21 +106,54 @@ public final class Vector3D implements Vector {
 
 	@Override
 	public double dotProduct(Vector a) {
-		return x * a.get(0) + y * a.get(1) + z * a.get(2);
+		if (a instanceof Vector3D) {
+			return dotProduct((Vector3D) a);
+		} else {
+			checkDimension(a);
+			return x * a.get(0) + y * a.get(1) + z * a.get(2);
+		}
+	}
+
+	public double dotProduct(Vector3D a) {
+		return x * a.x + y * a.y + z * a.z;
 	}
 
 	@Override
 	public Vector3D crossProduct(Vector a) {
+		if (a instanceof Vector3D) {
+			return crossProduct((Vector3D) a);
+		} else if (a.dimension() == 3) {
+			double u, v, w;
+			u = y * a.get(2) - z * a.get(1);
+			v = z * a.get(0) - x * a.get(2);
+			w = x * a.get(1) - y * a.get(0);
+			return instance(u, v, w);
+		} else {
+			throw new IllegalArgumentException(
+					"Cross product is not defined for dimension " + a.dimension());
+		}
+	}
+
+	public Vector3D crossProduct(Vector3D a) {
 		double u, v, w;
-		u = y * a.get(2) - z * a.get(1);
-		v = z * a.get(0) - x * a.get(2);
-		w = x * a.get(1) - y * a.get(0);
+		u = y * a.z - z * a.y;
+		v = z * a.x - x * a.z;
+		w = x * a.y - y * a.x;
 		return instance(u, v, w);
 	}
 
 	@Override
 	public Vector3D pointwiseProduct(Vector a) {
-		return instance(x * a.get(0), y * a.get(1), z * a.get(2));
+		if (a instanceof Vector3D) {
+			return crossProduct((Vector3D) a);
+		} else {
+			checkDimension(a);
+			return instance(x * a.get(0), y * a.get(1), z * a.get(2));
+		}
+	}
+
+	public Vector3D pointwiseProduct(Vector3D a) {
+		return instance(x * a.x, y * a.y, z * z);
 	}
 
 	/**
@@ -156,5 +207,20 @@ public final class Vector3D implements Vector {
 		if (Double.doubleToLongBits(z) != Double.doubleToLongBits(other.get(2)))
 			return false;
 		return true;
+	}
+
+	/**
+	 * Checks whether the given vector has the same dimensions as this vector
+	 * and throws an exception if not.
+	 *
+	 * @param other the vector whose dimension is being checked
+	 * @throws IllegalVectorDimensionException if the dimension of {@code other}
+	 *         is not 3
+	 */
+	private void checkDimension(Vector other) {
+		if (other.dimension() != DIMENSION) {
+			throw new IllegalVectorDimensionException(
+					"The dimension of vector " + other + "is not 3");
+		}
 	}
 }
