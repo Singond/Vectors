@@ -33,68 +33,6 @@ public class ImplementationComparison {
 		public double getPosition();
 	}
 
-	static class HarmonicOscillatorSolverArrayVector
-			implements HarmonicOscillatorSolver {
-
-		private double freeLength;
-		private double stiffness;
-		private double mass;
-		private Vector support;
-
-		private Vector position;
-		private Vector force;
-		private Vector velocity;
-
-		private double step;
-
-		@Override
-		public void setModel(HarmonicOscillatorModel model) {
-			freeLength = model.length;
-			stiffness = model.stiffness;
-			mass = model.mass;
-			support = ArrayVector.valueOf(0, 0, 0);
-			double initPosition = model.length + model.initialDisplacement;
-			position = ArrayVector.valueOf(0, -initPosition, 0);
-			velocity = ArrayVector.valueOf(0, 0, 0);
-		}
-
-		@Override
-		public void setStep(double step) {
-			this.step = step;
-		}
-
-		private void calculateForce() {
-			Vector spring = position.minus(support);
-			double elongation = spring.magnitude() - freeLength;
-			double strain = elongation / freeLength;
-			double forceScalar = stiffness * strain;
-			force = spring.normalized().negative().times(forceScalar);
-		}
-
-		private void calculateVelocity() {
-			Vector acceleration = force.times(1/mass);
-			Vector deltaV = acceleration.times(step);
-			velocity = velocity.plus(deltaV);
-		}
-
-		private void calculatePosition() {
-			Vector delta = velocity.times(step);
-			position = position.plus(delta);
-		}
-
-		@Override
-		public void doStep() {
-			calculateForce();
-			calculateVelocity();
-			calculatePosition();
-		}
-
-		@Override
-		public double getPosition() {
-			return position.get(1);
-		}
-	}
-
 	static class HarmonicOscillatorSolverVektor
 			implements HarmonicOscillatorSolver {
 
@@ -157,6 +95,130 @@ public class ImplementationComparison {
 		}
 	}
 
+	static class HarmonicOscillatorSolverArrayVector
+			implements HarmonicOscillatorSolver {
+
+		private double freeLength;
+		private double stiffness;
+		private double mass;
+		private Vector support;
+
+		private Vector position;
+		private Vector force;
+		private Vector velocity;
+
+		private double step;
+
+		@Override
+		public void setModel(HarmonicOscillatorModel model) {
+			freeLength = model.length;
+			stiffness = model.stiffness;
+			mass = model.mass;
+			support = ArrayVector.valueOf(0, 0, 0);
+			double initPosition = model.length + model.initialDisplacement;
+			position = ArrayVector.valueOf(0, -initPosition, 0);
+			velocity = ArrayVector.valueOf(0, 0, 0);
+		}
+
+		@Override
+		public void setStep(double step) {
+			this.step = step;
+		}
+
+		private void calculateForce() {
+			Vector spring = position.minus(support);
+			double elongation = spring.magnitude() - freeLength;
+			double strain = elongation / freeLength;
+			double forceScalar = stiffness * strain;
+			force = spring.normalized().negative().times(forceScalar);
+		}
+
+		private void calculateVelocity() {
+			Vector acceleration = force.times(1/mass);
+			Vector deltaV = acceleration.times(step);
+			velocity = velocity.plus(deltaV);
+		}
+
+		private void calculatePosition() {
+			Vector delta = velocity.times(step);
+			position = position.plus(delta);
+		}
+
+		@Override
+		public void doStep() {
+			calculateForce();
+			calculateVelocity();
+			calculatePosition();
+		}
+
+		@Override
+		public double getPosition() {
+			return position.get(1);
+		}
+	}
+
+	static class HarmonicOscillatorSolverVector3D
+			implements HarmonicOscillatorSolver {
+
+		private double freeLength;
+		private double stiffness;
+		private double mass;
+		private Vector support;
+
+		private Vector position;
+		private Vector force;
+		private Vector velocity;
+
+		private double step;
+
+		@Override
+		public void setModel(HarmonicOscillatorModel model) {
+			freeLength = model.length;
+			stiffness = model.stiffness;
+			mass = model.mass;
+			support = Vector3D.valueOf(0, 0, 0);
+			double initPosition = model.length + model.initialDisplacement;
+			position = Vector3D.valueOf(0, -initPosition, 0);
+			velocity = Vector3D.valueOf(0, 0, 0);
+		}
+
+		@Override
+		public void setStep(double step) {
+			this.step = step;
+		}
+
+		private void calculateForce() {
+			Vector spring = position.minus(support);
+			double elongation = spring.magnitude() - freeLength;
+			double strain = elongation / freeLength;
+			double forceScalar = stiffness * strain;
+			force = spring.normalized().negative().times(forceScalar);
+		}
+
+		private void calculateVelocity() {
+			Vector acceleration = force.times(1/mass);
+			Vector deltaV = acceleration.times(step);
+			velocity = velocity.plus(deltaV);
+		}
+
+		private void calculatePosition() {
+			Vector delta = velocity.times(step);
+			position = position.plus(delta);
+		}
+
+		@Override
+		public void doStep() {
+			calculateForce();
+			calculateVelocity();
+			calculatePosition();
+		}
+
+		@Override
+		public double getPosition() {
+			return position.get(1);
+		}
+	}
+
 	@Test
 	public void harmoscVektor() {
 		System.out.println("Implementation using cz.slanyj.euclideanVector.Vektor");
@@ -168,6 +230,13 @@ public class ImplementationComparison {
 	public void harmoscArrayVector() {
 		System.out.println("Implementation using com.github.singond.physics.ArrayVector");
 		harmosc(new HarmonicOscillatorSolverArrayVector(), "arrayVector");
+		System.out.println();
+	}
+
+	@Test
+	public void harmoscVector3D() {
+		System.out.println("Implementation using com.github.singond.physics.Vector3D");
+		harmosc(new HarmonicOscillatorSolverArrayVector(), "vector3D");
 		System.out.println();
 	}
 
