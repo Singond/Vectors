@@ -219,6 +219,68 @@ public class ImplementationComparison {
 		}
 	}
 
+	static class HarmonicOscillatorSolverVector3DTyped
+			implements HarmonicOscillatorSolver {
+
+		private double freeLength;
+		private double stiffness;
+		private double mass;
+		private Vector3D support;
+
+		private Vector3D position;
+		private Vector3D force;
+		private Vector3D velocity;
+
+		private double step;
+
+		@Override
+		public void setModel(HarmonicOscillatorModel model) {
+			freeLength = model.length;
+			stiffness = model.stiffness;
+			mass = model.mass;
+			support = Vector3D.valueOf(0, 0, 0);
+			double initPosition = model.length + model.initialDisplacement;
+			position = Vector3D.valueOf(0, -initPosition, 0);
+			velocity = Vector3D.valueOf(0, 0, 0);
+		}
+
+		@Override
+		public void setStep(double step) {
+			this.step = step;
+		}
+
+		private void calculateForce() {
+			Vector3D spring = position.minus(support);
+			double elongation = spring.magnitude() - freeLength;
+			double strain = elongation / freeLength;
+			double forceScalar = stiffness * strain;
+			force = spring.normalized().negative().times(forceScalar);
+		}
+
+		private void calculateVelocity() {
+			Vector3D acceleration = force.times(1/mass);
+			Vector3D deltaV = acceleration.times(step);
+			velocity = velocity.plus(deltaV);
+		}
+
+		private void calculatePosition() {
+			Vector delta = velocity.times(step);
+			position = position.plus(delta);
+		}
+
+		@Override
+		public void doStep() {
+			calculateForce();
+			calculateVelocity();
+			calculatePosition();
+		}
+
+		@Override
+		public double getPosition() {
+			return position.get(1);
+		}
+	}
+
 	@Test
 	public void harmoscVektor() {
 		System.out.println("Implementation using cz.slanyj.euclideanVector.Vektor");
@@ -236,7 +298,14 @@ public class ImplementationComparison {
 	@Test
 	public void harmoscVector3D() {
 		System.out.println("Implementation using com.github.singond.physics.Vector3D");
-		harmosc(new HarmonicOscillatorSolverArrayVector(), "vector3D");
+		harmosc(new HarmonicOscillatorSolverVector3D(), "vector3D");
+		System.out.println();
+	}
+
+	@Test
+	public void harmoscVector3D_2() {
+		System.out.println("Implementation using com.github.singond.physics.Vector3D (2)");
+		harmosc(new HarmonicOscillatorSolverVector3DTyped(), "vector3D-2");
 		System.out.println();
 	}
 
@@ -247,7 +316,7 @@ public class ImplementationComparison {
 		solver.setModel(model);
 		solver.setStep(0.0001);
 
-		int steps = 1_000_000;
+		int steps = 10_000_000;
 
 		String filename = "harmosc-" + suffix + ".csv";
 		FileWriter fileWriter;
