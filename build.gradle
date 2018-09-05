@@ -3,10 +3,12 @@ apply plugin: 'maven'
 
 dependencies {
 	testCompile 'junit:junit:4.12'
+	testCompile name: 'euclideanVector', group: 'cz.slanyj', version: '1.0.4'
 }
 
 repositories {
 	mavenCentral()
+	mavenLocal()
 }
 
 task version {
