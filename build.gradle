@@ -16,6 +16,10 @@ repositories {
 	mavenLocal()
 }
 
+eclipse {
+	project.name = 'Vectors'
+}
+
 task version {
 	group 'Help'
 	description 'Displays the project version'
