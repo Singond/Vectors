@@ -24,6 +24,10 @@ task version {
 	}
 }
 
+test {
+	exclude 'com/github/singond/physics/vector/ImplementationComparison.class'
+}
+
 task javadocJar(type: Jar) {
 	classifier = 'javadoc'
 	from javadoc
