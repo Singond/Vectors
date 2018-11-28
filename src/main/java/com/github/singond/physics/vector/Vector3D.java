@@ -23,10 +23,12 @@ public final class Vector3D implements Vector {
 	}
 
 	/**
-	 * Returns an {@code Vector3D} with the given components.
+	 * Returns a {@code Vector3D} with the given components.
 	 *
-	 * @param components components of the vector
-	 * @return an {@code Vector3D} with the given components
+	 * @param x x-component of the vector
+	 * @param y y-component of the vector
+	 * @param z z-component of the vector
+	 * @return a {@code Vector3D} with the given components
 	 */
 	public static final Vector3D valueOf(double x, double y, double z) {
 		return new Vector3D(x, y, z);
