@@ -28,6 +28,8 @@ public interface Vector {
 	 *
 	 * @param component the (zero-based) index of the component
 	 * @return the {@code component}th component of this vector.
+	 * @throws IndexOutOfBoundsException if {@code component} is lower than
+	 *         {@code 0} or higher than or equal to {@code dimension()}
 	 */
 	double get(int component);
 

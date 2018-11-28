@@ -1,12 +1,19 @@
+plugins {
+  id "me.champeau.gradle.jmh" version "0.4.7"
+}
+
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'eclipse'
 
 dependencies {
 	testCompile 'junit:junit:4.12'
+	testCompile name: 'euclideanVector', group: 'cz.slanyj', version: '1.0.4'
 }
 
 repositories {
 	mavenCentral()
+	mavenLocal()
 }
 
 task version {
@@ -15,6 +22,10 @@ task version {
 	doLast {
 		println version
 	}
+}
+
+test {
+	exclude 'com/github/singond/physics/vector/ImplementationComparison.class'
 }
 
 task javadocJar(type: Jar) {

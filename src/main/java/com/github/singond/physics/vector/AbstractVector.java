@@ -93,15 +93,16 @@ public abstract class AbstractVector<T extends Vector> implements Vector {
 
 	@Override
 	public T crossProduct(Vector a) {
-		if (dimension() == 3) {
+		if (dimension() == 3 && a.dimension() == 3) {
 			double[] result = new double[3];
 			result[0] = this.get(1) * a.get(2) - this.get(2) * a.get(1);
 			result[1] = this.get(2) * a.get(0) - this.get(0) * a.get(2);
 			result[2] = this.get(0) * a.get(1) - this.get(1) * a.get(0);
 			return instance(result);
 		} else {
-			throw new IllegalArgumentException(
-					"Cross product is not defined for dimension " + dimension());
+			throw new IllegalVectorDimensionException(
+					"Cross product is not defined for vectors of dimension "
+							+ dimension() + " and " + a.dimension());
 		}
 	}
 
