@@ -264,7 +264,131 @@ public class ImplementationComparison {
 		}
 
 		private void calculatePosition() {
+			Vector3D delta = velocity.times(step);
+			position = position.plus(delta);
+		}
+
+		@Override
+		public void doStep() {
+			calculateForce();
+			calculateVelocity();
+			calculatePosition();
+		}
+
+		@Override
+		public double getPosition() {
+			return position.get(1);
+		}
+	}
+
+	static class HarmonicOscillatorSolverVector2D
+			implements HarmonicOscillatorSolver {
+
+		private double freeLength;
+		private double stiffness;
+		private double mass;
+		private Vector support;
+
+		private Vector position;
+		private Vector force;
+		private Vector velocity;
+
+		private double step;
+
+		@Override
+		public void setModel(HarmonicOscillatorModel model) {
+			freeLength = model.length;
+			stiffness = model.stiffness;
+			mass = model.mass;
+			support = Vector2D.valueOf(0, 0);
+			double initPosition = model.length + model.initialDisplacement;
+			position = Vector2D.valueOf(0, -initPosition);
+			velocity = Vector2D.valueOf(0, 0);
+		}
+
+		@Override
+		public void setStep(double step) {
+			this.step = step;
+		}
+
+		private void calculateForce() {
+			Vector spring = position.minus(support);
+			double elongation = spring.magnitude() - freeLength;
+			double strain = elongation / freeLength;
+			double forceScalar = stiffness * strain;
+			force = spring.normalized().negative().times(forceScalar);
+		}
+
+		private void calculateVelocity() {
+			Vector acceleration = force.times(1/mass);
+			Vector deltaV = acceleration.times(step);
+			velocity = velocity.plus(deltaV);
+		}
+
+		private void calculatePosition() {
 			Vector delta = velocity.times(step);
+			position = position.plus(delta);
+		}
+
+		@Override
+		public void doStep() {
+			calculateForce();
+			calculateVelocity();
+			calculatePosition();
+		}
+
+		@Override
+		public double getPosition() {
+			return position.get(1);
+		}
+	}
+
+	static class HarmonicOscillatorSolverVector2DTyped
+			implements HarmonicOscillatorSolver {
+
+		private double freeLength;
+		private double stiffness;
+		private double mass;
+		private Vector2D support;
+
+		private Vector2D position;
+		private Vector2D force;
+		private Vector2D velocity;
+
+		private double step;
+
+		@Override
+		public void setModel(HarmonicOscillatorModel model) {
+			freeLength = model.length;
+			stiffness = model.stiffness;
+			mass = model.mass;
+			support = Vector2D.valueOf(0, 0);
+			double initPosition = model.length + model.initialDisplacement;
+			position = Vector2D.valueOf(0, -initPosition);
+			velocity = Vector2D.valueOf(0, 0);
+		}
+
+		@Override
+		public void setStep(double step) {
+			this.step = step;
+		}
+
+		private void calculateForce() {
+			Vector2D spring = position.minus(support);
+			double elongation = spring.magnitude() - freeLength;
+			double strain = elongation / freeLength;
+			double forceScalar = stiffness * strain;
+			force = spring.normalized().negative().times(forceScalar);
+		}
+
+		private void calculateVelocity() {
+			Vector2D acceleration = force.times(1/mass);
+			Vector2D deltaV = acceleration.times(step);
+			velocity = velocity.plus(deltaV);
+		}
+
+		private void calculatePosition() {
+			Vector2D delta = velocity.times(step);
 			position = position.plus(delta);
 		}
 
@@ -303,9 +427,23 @@ public class ImplementationComparison {
 	}
 
 	@Test
-	public void harmoscVector3D_2() {
-		System.out.println("Implementation using com.github.singond.physics.Vector3D (2)");
-		harmosc(new HarmonicOscillatorSolverVector3DTyped(), "vector3D-2");
+	public void harmoscVector3DTyped() {
+		System.out.println("Implementation using com.github.singond.physics.Vector3D (typed)");
+		harmosc(new HarmonicOscillatorSolverVector3DTyped(), "vector3D-typed");
+		System.out.println();
+	}
+
+	@Test
+	public void harmoscVector2D() {
+		System.out.println("Implementation using com.github.singond.physics.Vector2D");
+		harmosc(new HarmonicOscillatorSolverVector2D(), "vector2D");
+		System.out.println();
+	}
+
+	@Test
+	public void harmoscVector2DTyped() {
+		System.out.println("Implementation using com.github.singond.physics.Vector2D (typed)");
+		harmosc(new HarmonicOscillatorSolverVector2DTyped(), "vector2D-typed");
 		System.out.println();
 	}
 
