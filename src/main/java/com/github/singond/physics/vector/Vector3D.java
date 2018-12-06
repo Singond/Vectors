@@ -131,8 +131,8 @@ public final class Vector3D implements Vector {
 			w = x * a.get(1) - y * a.get(0);
 			return instance(u, v, w);
 		} else {
-			throw new IllegalArgumentException(
-					"Cross product is not defined for dimension " + a.dimension());
+			throw new IllegalVectorDimensionException(
+					"The dimension of vector " + a + "is not 3");
 		}
 	}
 

@@ -113,12 +113,16 @@ public interface Vector {
 
 	/**
 	 * Returns the cross product of this vector with the given vector.
-	 * The vectors must be of dimension 3.
+	 * Note that the cross product is only defined for three dimensions,
+	 * therefore both this vector and the argument must be of dimension three,
+	 * otherwise this method throws an {@code UnsupportedOperationException}.
 	 *
 	 * @param a the vector to multiply this vector by
 	 * @return {@code this x a}
+	 * @throws UnsupportedOperationException if the cross product is not defined
+	 *         for this vector
 	 * @throws IllegalVectorDimensionException if the dimension of {@code a}
-	 *         or the dimension of this vector is not three
+	 *         is not equal to the dimension of this vector
 	 */
 	Vector crossProduct(Vector a);
 
